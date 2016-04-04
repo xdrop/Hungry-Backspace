@@ -26,6 +26,13 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 3. You can change the key bindings by going to `Preferences` then `Package Settings` then `Hungry Backspace`, and select they keymap option
 
+*Alternatively* if you have not installed Package control (which I highly recommend):
+
+1. Go to **Preferences | Browse packages...**
+2. While inside the **Packages** directory, clone the theme repository using the command below: 
+
+    `git clone https://github.com/xdrop/Hungry-Backspace.git "Hungry Backspace"`
+
 ### Key bindings
 By default this plugin overrides your backspace with the "hungry" one however, as mentioned previously the plugin is meant to be used in conjunction with the default backspace which is now accessible via `SHIFT+BACKSPACE`
 
