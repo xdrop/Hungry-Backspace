@@ -1,0 +1,6 @@
+[
+  // the hungry backspace
+  { "keys": ["backspace"], "command": "hungry_backspace" },
+  // the default backspace
+  { "keys": ["shift+backspace"], "command": "left_delete"}
+]

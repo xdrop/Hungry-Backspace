@@ -1,0 +1,48 @@
+[
+    {
+        "mnemonic": "n", 
+        "caption": "Preferences", 
+        "id": "preferences", 
+        "children": [
+            {
+                "mnemonic": "P", 
+                "caption": "Package Settings", 
+                "id": "package-settings", 
+                "children": [
+                    {
+                        "caption": "Hungry Backspace", 
+                        "children": [
+                            {
+                                "caption": "README",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Hungry Backspace/README.md"
+                                }
+                            },
+                            { "caption": "-" },
+                            // Key Bindings - Default
+                            {
+                                "caption": "Key Bindings – Default",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Hungry Backspace/Default ($platform).sublime-keymap"
+                                }
+                            },
+                            // Key Bindings - User
+                            {
+                                "caption": "Key Bindings – User",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Default ($platform).sublime-keymap"
+                                }
+                            }, 
+                            {
+                                "caption": "-"
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]
