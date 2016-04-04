@@ -7,7 +7,7 @@ This small plugin brings to Sublime Text the "hungry backspace" feature from Int
 
 ### Live demo
 
-![](http://i.imgur.com/Ayw6jgA.gif)
+![](http://i.imgur.com/raML27M.gif)
 
 ### Warning
 
