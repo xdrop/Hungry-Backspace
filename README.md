@@ -15,7 +15,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### Version
 
-1.0.0
+1.0.1
 
 ### Installation
 
@@ -27,15 +27,30 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 3. You can change the key bindings by going to `Preferences` then `Package Settings` then `Hungry Backspace`, and select they keymap option
 
 ### Key bindings
-By default this plugin overrides your backspace with the "hungry" one however, as mentioned previously the plugin is meant to be used in conjunction with the default backspace which is now accessible via `SHIFT+BACKSPACE`
+By default this plugin overrides your backspace with the "hungry" one however, as mentioned previously the plugin is meant to be used in conjunction with the default backspace which is now accessible via `SHIFT+BACKSPACE`. You can flip between space and shift-backspace at any time by pressing **CTRL+.(dot)**
 
 ```
 [
   // the hungry backspace
   { "keys": ["backspace"], "command": "hungry_backspace" },
   // the default backspace
-  { "keys": ["shift+backspace"], "command": "left_delete"}
+  { "keys": ["shift+backspace"], "command": "default_backspace"},
+  // flipping the hungry and default backspace actions
+  { "keys": ["ctrl+."], "command": "flip_hungry_backspace_key_bindings"}
 ]
+```
+
+### Settings
+```
+{
+  // enable/disable plugin
+  "enabled": true,
+  // filetypes with these extensions don't have hungry backspacing (typically indented languages)
+  "excluded_filetypes": ["hs, py"],
+  // controls whether the default/hungry backspace bindings should be flipped
+  "flipped_key_bindings": false
+}
+
 ```
 
 

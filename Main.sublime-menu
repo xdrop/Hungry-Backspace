@@ -20,6 +20,23 @@
                                 }
                             },
                             { "caption": "-" },
+                            // Settings - Default
+                            {
+                                "caption": "Settings – Default",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/Hungry Backspace/Hungry Backspace.sublime-settings"
+                                }
+                            },
+                            // Settings - User
+                            {
+                                "caption": "Settings – User",
+                                "command": "open_file",
+                                "args": {
+                                    "file": "${packages}/User/Hungry Backspace.sublime-settings"
+                                }
+                            },
+                            { "caption": "-" },
                             // Key Bindings - Default
                             {
                                 "caption": "Key Bindings – Default",
