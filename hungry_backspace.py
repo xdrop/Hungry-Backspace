@@ -70,6 +70,8 @@ def consume_backspace(view, edit, region):
     default_backspace(view)
     
 def is_active_file_type(filename):
+  if filename == None:
+    return True
   excluded_filetypes = s.get('excluded_filetypes')
   parts = filename.split('.')
   if len(parts) < 2:

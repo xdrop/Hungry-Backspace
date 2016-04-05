@@ -15,7 +15,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### Version
 
-1.0.1
+1.0.2
 
 ### Installation
 
