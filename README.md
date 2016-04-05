@@ -20,13 +20,13 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 ### Installation
 
 
-1. Having installed [Package Control](https://packagecontrol.io/installation) access the `Command Pallete` (`Ctrl+Shift+P`), select `Install package` and then select `Java Bytecode`.
+1. Having installed [Package Control](https://packagecontrol.io/installation) access the `Command Pallete` (`Ctrl+Shift+P`), select `Install package` and then select `Hungry Backspace`.
 
 2. Try it by pressing backspace on some empty lines!
 
 3. You can change the key bindings by going to `Preferences` then `Package Settings` then `Hungry Backspace`, and select they keymap option
 
-*Alternatively* if you have not installed Package control (which I highly recommend):
+*Alternatively* if you have not installed Package control:
 
 1. Go to **Preferences | Browse packages...**
 2. While inside the **Packages** directory, clone the theme repository using the command below: 
