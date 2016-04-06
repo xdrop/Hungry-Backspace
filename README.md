@@ -15,7 +15,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### Version
 
-1.0.4
+1.0.5
 
 ### Installation
 
@@ -53,7 +53,7 @@ By default this plugin overrides your backspace with the "hungry" one however, a
   // enable/disable plugin
   "enabled": true,
   // filetypes with these extensions don't have hungry backspacing (typically indented languages)
-  "excluded_filetypes": ["hs, py"],
+  "excluded_filetypes": ["hs", "py"],
   // controls whether the default/hungry backspace bindings should be flipped
   "flipped_key_bindings": false
 }

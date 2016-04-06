@@ -2,7 +2,7 @@
   // enable/disable plugin
 	"enabled": true,
   // filetypes with these extensions don't have hungry backspacing
-	"excluded_filetypes": ["hs, py"],
+	"excluded_filetypes": ["hs", "py"],
   // controls whether the default/hungry backspace bindings should be flipped
 	"flipped_key_bindings": false
 }
