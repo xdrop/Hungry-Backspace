@@ -1,0 +1,4 @@
+Version 1.0.7
+===============================================================================================================================
+
+Add option `force_indent_at_upper_level` for when the upper line is empty but contains some indentation a backspace can cause the upper line to obtain this lines indentation.

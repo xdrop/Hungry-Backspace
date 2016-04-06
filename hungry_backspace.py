@@ -4,6 +4,7 @@ import re
 
 spaceRe = re.compile(r'^\s*$')
 
+
 class HungryBackspaceCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
@@ -14,6 +15,7 @@ class HungryBackspaceCommand(sublime_plugin.TextCommand):
         else:
             default_backspace(view)
 
+
 class DefaultBackspaceCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
@@ -22,7 +24,6 @@ class DefaultBackspaceCommand(sublime_plugin.TextCommand):
             hungry_backspace(view, edit)
         else:
             default_backspace(view)
-            
 
 
 class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
@@ -60,7 +61,7 @@ def consume_backspace(view, edit, region):
         view.erase(edit, old_line)
         # clear the selection
         view.sel().clear()
-        sz = 0
+        offset = 0
         # check if previous line is empty
         if spaceRe.match(upper_line_contents):
             # if the upper line doesn't contain any indent
@@ -69,9 +70,18 @@ def consume_backspace(view, edit, region):
                 # clear it first
                 view.replace(edit, upper_line, '')
                 # re-insert indentation characters
-                sz = view.insert(edit, upper_line.begin(), old_line_contents[:-1])
+                offset = view.insert(
+                    edit, upper_line.begin(), old_line_contents.rstrip("\r\n"))
+            elif is_force_indent_at_upper():
+                # get ready to re-insert indentation
+                # clear it first
+                view.replace(edit, upper_line, '')
+                # re-insert indentation characters
+                sz = view.insert(
+                    edit, upper_line.begin(), old_line_contents.rstrip("\r\n"))
+                offset = sz - len(upper_line_contents)
         # move cursor
-        view.sel().add(sublime.Region(upper_line.end() + sz))
+        view.sel().add(sublime.Region(upper_line.end() + offset))
     else:
         default_backspace(view)
 
@@ -87,12 +97,17 @@ def is_active_file_type(filename):
         return parts[-1] not in excluded_filetypes
 
 
+def is_force_indent_at_upper():
+    return s.get('force_indent_at_upper_level')
+
+
 def is_swapped():
     return s.get('flipped_key_bindings')
 
 
 def is_enabled():
     return s.get('enabled')
+
 
 def get_cur_line(view, region, full):
     if full:
