@@ -22,6 +22,7 @@ class DefaultBackspaceCommand(sublime_plugin.TextCommand):
             hungry_backspace(view, edit)
         else:
             default_backspace(view)
+            
 
 
 class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
@@ -61,12 +62,14 @@ def consume_backspace(view, edit, region):
         view.sel().clear()
         sz = 0
         # check if previous line is empty
-        if(spaceRe.match(upper_line_contents)):
-            # if it's empty get ready to re-insert indentation
-            # clear it first
-            view.replace(edit, upper_line, '')
-            # re-insert indentation characters
-            sz = view.insert(edit, upper_line.begin(), old_line_contents[:-1])
+        if spaceRe.match(upper_line_contents):
+            # if the upper line doesn't contain any indent
+            if len(upper_line_contents) == 0:
+                # if it's empty get ready to re-insert indentation
+                # clear it first
+                view.replace(edit, upper_line, '')
+                # re-insert indentation characters
+                sz = view.insert(edit, upper_line.begin(), old_line_contents[:-1])
         # move cursor
         view.sel().add(sublime.Region(upper_line.end() + sz))
     else:
@@ -81,10 +84,7 @@ def is_active_file_type(filename):
     if len(parts) < 2:
         return True
     else:
-        if parts[-1] in excluded_filetypes:
-            return False
-        else:
-            return True
+        return parts[-1] not in excluded_filetypes
 
 
 def is_swapped():
