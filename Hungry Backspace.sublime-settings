@@ -16,5 +16,6 @@
   "consume_above_line": true,
   // [Experimental] If you are on line start and press backspace and the upper line is not empty
   // the current lines contents get moved up
-  "backspace_line_content_move": false
+  // Set "enabled"/ "disabled" / "forced"
+  "backspace_line_content_move": "disabled"
 }

@@ -84,7 +84,7 @@ def consume_backspace(view, edit, cursor):
         passthrough = False
         # if right to left reindent is enabled and spaces on
         # this line are different from spaces on the above line
-        if should_reindent and spaces >= upper_spaces:
+        if should_reindent and not is_force_line_move() and spaces >= upper_spaces:
             reindent(view)
             new_cursor_pos = view.sel()[0]
         else:
@@ -165,7 +165,10 @@ def is_consume_above():
 
 
 def is_bck_line_move():
-    return s.get('backspace_line_content_move')
+    return s.get('backspace_line_content_move') in ["enabled","forced", True]
+
+def is_force_line_move():
+    return s.get('backspace_line_content_move') == "forced"
 
 
 def get_cur_line(view, region, full):

@@ -19,7 +19,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### Version
 
-1.1.0
+1.1.1
 
 ### What's new
 
@@ -37,8 +37,9 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
   *  [Experimental] If you are on line start and press backspace and the upper line is not empty
      the current lines contents get moved up
-
-     "backspace_line_content_move": true 
+     Options: "enabled"/ "disabled" / "forced"
+     
+     "backspace_line_content_move": "enabled"
 
 ### Installation
 
@@ -90,7 +91,8 @@ By default this plugin overrides your backspace with the "hungry" one however, a
   "consume_above_line": true,
   // [Experimental] If you are on line start and press backspace and the upper line is not empty
   // the current lines contents get moved up
-  "backspace_line_content_move": false
+  // Set "enabled"/ "disabled" / "forced"
+  "backspace_line_content_move": "disabled"
 }
 
 ```
