@@ -13,6 +13,8 @@ This small plugin brings to Sublime Text the "hungry backspace" feature from Int
 
 This plugin is **NOT** meant to replace backspace entirely, it is meant to be used in conjunction with the original backspace function which is now accessed by **Shift+Backspace**
 
+#### (!) USE THE DEFAULT BACKSPACE WHENEVER YOU NEED IT USING SHIFT+BACKSPACE
+
 ### Version
 
 1.0.7
