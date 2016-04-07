@@ -15,9 +15,30 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 #### (!) USE THE DEFAULT BACKSPACE WHENEVER YOU NEED IT USING SHIFT+BACKSPACE
 
+
+
 ### Version
 
-1.0.7
+1.1.0
+
+### What's new
+
+  Added 3 new features based on IntelliJ's smart backspace, of which two are experimental and one is enabled by default. Feel free to try them out
+
+  *  [Experimental] When you press backspace with your cursor at line start
+     if the indentation level of the current line is wrong it is reindented
+
+     "right_to_left_backspacing" : true
+
+  *  If you are on line start and the upper line is empty
+     the current line gets moved one up
+
+     "consume_above_line": true
+
+  *  [Experimental] If you are on line start and press backspace and the upper line is not empty
+     the current lines contents get moved up
+
+     "backspace_line_content_move": true 
 
 ### Installation
 
@@ -60,7 +81,16 @@ By default this plugin overrides your backspace with the "hungry" one however, a
   "flipped_key_bindings": false,
   // when the upper line is empty but contains some indentation a backspace
   // causes the upper line to obtain this lines indentation
-  "force_indent_at_upper_level" : true
+  "force_indent_at_upper_level" : true,
+  // [Experimental] When you press backspace with your cursor at line start
+  // if the indentation level of the current line is wrong it is reindented
+  "right_to_left_backspacing" : false,
+  // If you are on line start and the upper line is empty
+  // the current line gets moved one up
+  "consume_above_line": true,
+  // [Experimental] If you are on line start and press backspace and the upper line is not empty
+  // the current lines contents get moved up
+  "backspace_line_content_move": false
 }
 
 ```

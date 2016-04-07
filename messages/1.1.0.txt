@@ -1,0 +1,21 @@
+Version 1.1.0
+============================================================================================================================
+
+[New features!]
+
+  Added 3 new features based on IntelliJ's smart backspace, of which two are experimental and one is enabled by default. Feel free to try them out
+
+  *  [Experimental] When you press backspace with your cursor at line start
+     if the indentation level of the current line is wrong it is reindented
+
+     "right_to_left_backspacing" : true
+
+  *  If you are on line start and the upper line is empty
+     the current line gets moved one up
+
+     "consume_above_line": true
+
+  *  [Experimental] If you are on line start and press backspace and the upper line is not empty
+     the current lines contents get moved up
+
+     "backspace_line_content_move": true 
