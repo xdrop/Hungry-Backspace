@@ -23,6 +23,10 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### What's new
 
+##### New features demo
+
+![](http://i.imgur.com/5cNpCV3.gif)
+
   Added 3 new features based on IntelliJ's smart backspace, of which two are experimental and one is enabled by default.
 
   *  [Experimental] When you press backspace with your cursor at line start
@@ -42,9 +46,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
      
      "backspace_line_content_move": "enabled"
 
-##### New features demo
 
-![](http://i.imgur.com/5cNpCV3.gif)
 
 
 ### Installation
