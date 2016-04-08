@@ -29,18 +29,19 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
      if the indentation level of the current line is wrong it is reindented
      Options: "enabled"/ "disabled" / "forced"
 
-     "right_to_left_backspacing" : true
+     `"right_to_left_backspacing" : true`
 
   *  If you are on line start and the upper line is empty
      the current line gets moved one up
 
-     "consume_above_line": true
+     `"consume_above_line": true`
 
   *  [Experimental] If you are on line start and press backspace and the upper line is not empty
      the current lines contents get moved up
      Options: "enabled"/ "disabled" / "forced"
      
      "backspace_line_content_move": "enabled"
+
 
 ### Installation
 
