@@ -42,6 +42,10 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
      
      "backspace_line_content_move": "enabled"
 
+##### New features demo
+
+![](http://i.imgur.com/5cNpCV3.gif)
+
 
 ### Installation
 
