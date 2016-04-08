@@ -19,7 +19,7 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
 
 ### Version
 
-1.1.2
+1.1.3
 
 ### What's new
 

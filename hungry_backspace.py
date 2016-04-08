@@ -73,7 +73,9 @@ def consume_backspace(view, edit, cursor):
             # above we will re-indent it instead of removing it
             if current_indent > upper_indent and not upper_empty:
                 reindent(view)
-                return
+                new_cursor_pos = view.sel()[0]
+                if new_cursor_pos != cursor:
+                    return
         # remove the line under this selection
         view.erase(edit, cur_line)
         offset = 0
