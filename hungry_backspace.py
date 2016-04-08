@@ -39,8 +39,10 @@ class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
 
 
 def hungry_backspace(view, edit):
+    selections = view.sel()
     cursor = view.sel()[0]
-    if cursor.empty():
+    # disable for multiple-cursor selection
+    if cursor.empty() and len(selections) == 1:
         consume_backspace(view, edit, cursor)
     else:
         default_backspace(view)
@@ -55,38 +57,45 @@ def reindent(view):
 
 
 def consume_backspace(view, edit, cursor):
-    # get the current line with the trailing newline
-    (current_line_contents, current_line) = get_cur_line(view, cursor, True)
-    current_line_no_leading_space = current_line_contents.lstrip()
-    # calculated spaces until first character
-    current_indent = len(current_line_contents) - len(current_line_no_leading_space)
+    (cur_line_contents, cur_line) = get_cur_line(view, cursor, True)
+    # calculated indent until first character
+    current_indent = calc_indent(cur_line_contents)
     # check if it contains just spaces
-    if spaceRe.match(current_line_contents):
-        # get the upper line without the trailing newline
+    if spaceRe.match(cur_line_contents):
+        # get the upper line
         (upper_line_contents, upper_line) = get_upper_line(view, cursor, False)
+        # check if the upper line is empty
+        upper_empty = spaceRe.match(upper_line_contents)
+        # if force right to left is enabled
+        if is_force_reindent():
+            upper_indent = calc_indent(upper_line_contents)
+            # if the indent level of this line is higher than the line
+            # above we will re-indent it instead of removing it
+            if current_indent > upper_indent and not upper_empty:
+                reindent(view)
+                return
         # remove the line under this selection
-        view.erase(edit, current_line)
-        # clear the selection
-        view.sel().clear()
+        view.erase(edit, cur_line)
         offset = 0
         # check if previous line is empty
-        if spaceRe.match(upper_line_contents):
+        if upper_empty:
             offset = reinsert_indent(
-                view, edit, (upper_line, upper_line_contents), current_line_contents)
+                view, edit,
+                (upper_line, upper_line_contents),
+                cur_line_contents)
         # move cursor
-        view.sel().add(sublime.Region(upper_line.end() + offset))
+        move_cursor(view, upper_line.end() + offset)
     # if we are at the begining of the line
-    elif (current_line.begin() + current_indent) == cursor.end():
-        should_reindent = is_right_left_bck()
+    elif (cur_line.begin() + current_indent) == cursor.end():
+        should_reindent = is_right_left_bck() and not is_force_line_move()
         # get the upper line
         (upper_line_contents, upper_line) = get_upper_line(view, cursor, True)
-        upper_len = len(upper_line_contents)
-        upper_indent = upper_len - len(upper_line_contents.lstrip())
+        upper_indent = calc_indent(upper_line_contents)
         passthrough = False
-        # if right to left reindent is enabled 
+        # if right to left reindent is enabled
         # && and spaces on this line are more from spaces on the above line
         # && backspace_line_content_move is not set to forced
-        if should_reindent and not is_force_line_move() and current_indent >= upper_indent:
+        if should_reindent and current_indent >= upper_indent:
             reindent(view)
             # reobtain the cursor position
             new_cursor_pos = view.sel()[0]
@@ -94,21 +103,20 @@ def consume_backspace(view, edit, cursor):
             passthrough = True
         # if the re-indent didn't run or it run but nothing changed
         # that means we can perform one of the other actions
-        if passthrough or new_cursor_pos == cursor:
+        if passthrough or new_cursor_pos.end() == cursor.end():
             # we check that the upper line is empty
             # then we can move this line up
             if spaceRe.match(upper_line_contents) and is_consume_above():
                 view.erase(edit, upper_line)
-                view.sel().clear()
-                view.sel().add(sublime.Region(cursor.begin() - upper_len))
+                move_cursor(view, cursor.begin() - len(upper_line_contents))
             # if the upper line is not empty and we have enabled the option
             # to move line contents up on backspace
             elif is_bck_line_move() and current_indent >= upper_indent:
                 # strip the line end from the above line
                 # and append the current line without the leading space
                 new_merged_line = upper_line_contents.rstrip(
-                    "\r\n") + current_line_no_leading_space
-                view.erase(edit, current_line)
+                    "\r\n") + cur_line_contents.lstrip()
+                view.erase(edit, cur_line)
                 view.replace(edit, upper_line, '')
                 view.insert(edit, upper_line.begin(), new_merged_line)
                 # move the cursor to the new position
@@ -140,6 +148,15 @@ def reinsert_indent(view, edit, upper, indent):
     return offset
 
 
+def calc_indent(line):
+    # remove end of line characters
+    line_noeol = line.rstrip("\r\n")
+    # remove start spacing
+    line_trim = line_noeol.lstrip()
+    # calculated spaces until first character
+    return len(line_noeol) - len(line_trim)
+
+
 def move_cursor(view, pos):
     view.sel().clear()
     view.sel().add(sublime.Region(pos))
@@ -169,7 +186,11 @@ def is_enabled():
 
 
 def is_right_left_bck():
-    return s.get('right_to_left_backspacing')
+    return s.get('right_to_left_backspacing') in ["enabled", "forced", True]
+
+
+def is_force_reindent():
+    return s.get('right_to_left_backspacing') == "forced"
 
 
 def is_consume_above():
@@ -177,7 +198,8 @@ def is_consume_above():
 
 
 def is_bck_line_move():
-    return s.get('backspace_line_content_move') in ["enabled","forced", True]
+    return s.get('backspace_line_content_move') in ["enabled", "forced", True]
+
 
 def is_force_line_move():
     return s.get('backspace_line_content_move') == "forced"
@@ -189,6 +211,10 @@ def get_cur_line(view, region, full):
     else:
         line = view.line(region)
     return (view.substr(line), line)
+
+
+def as_hex(s):
+    return ":".join("{:02x}".format(ord(c)) for c in s)
 
 
 def get_upper_line(view, region, full):
