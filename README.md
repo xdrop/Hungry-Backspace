@@ -1,6 +1,8 @@
 Hungry Backspace for Sublime Text
 ------------------------------------
 
+[![](https://img.shields.io/badge/package-control-blue.svg?style=plastic)](https://packagecontrol.io/packages/Hungry%20Backspace)
+
 ### Overview
 
 This small plugin brings to Sublime Text the "hungry backspace" feature from IntelliJ. The hungry backspace retains the scope (indentation) when the backspace key is pressed on an empty line. 
