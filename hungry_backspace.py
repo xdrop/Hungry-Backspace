@@ -89,6 +89,9 @@ def consume_backspace(view, edit, cursor):
         move_cursor(view, upper_line.end() + offset)
     # if we are at the begining of the line
     elif (cur_line.begin() + current_indent) == cursor.end():
+        if s.get("disabled_on_line_begin"):
+            view.erase(edit, sublime.Region(cur_line.begin(),cur_line.begin() + current_indent))
+            return
         should_reindent = is_right_left_bck() and not is_force_line_move()
         # get the upper line
         (upper_line_contents, upper_line) = get_upper_line(view, cursor, True)
