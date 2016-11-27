@@ -60,6 +60,10 @@ def consume_backspace(view, edit, cursor):
     (cur_line_contents, cur_line) = get_cur_line(view, cursor, True)
     # calculated indent until first character
     current_indent = calc_indent(cur_line_contents)
+    # check whether to disable at line beginning
+    if s.get("disabled_on_line_begin"):
+        if disable_at_lend(view, edit,cur_line, cursor, current_indent):
+            return
     # check if it contains just spaces
     if spaceRe.match(cur_line_contents):
         # get the upper line
@@ -89,9 +93,6 @@ def consume_backspace(view, edit, cursor):
         move_cursor(view, upper_line.end() + offset)
     # if we are at the begining of the line
     elif (cur_line.begin() + current_indent) == cursor.end():
-        if s.get("disabled_on_line_begin"):
-            view.erase(edit, sublime.Region(cur_line.begin(),cur_line.begin() + current_indent))
-            return
         should_reindent = is_right_left_bck() and not is_force_line_move()
         # get the upper line
         (upper_line_contents, upper_line) = get_upper_line(view, cursor, True)
@@ -130,6 +131,14 @@ def consume_backspace(view, edit, cursor):
                 default_backspace(view)
     else:
         default_backspace(view)
+
+
+def disable_at_lend(view, edit, cur_line, cursor, ind):
+    if (cur_line.begin() + ind) == cursor.end():
+        view.erase(edit, sublime.Region(cur_line.begin(), cur_line.begin() + ind))
+        return True
+    else:
+        return False
 
 
 def reinsert_indent(view, edit, upper, indent):
