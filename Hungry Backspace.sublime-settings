@@ -20,5 +20,5 @@
   // Options: "enabled"/ "disabled" / "forced"
   "backspace_line_content_move": "disabled",
   // disable backspace on line begin
-  "disabled_on_line_begin": true
+  "disabled_on_line_begin": false
 }
