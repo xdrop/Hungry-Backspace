@@ -3,6 +3,7 @@ import sublime_plugin
 import re
 
 spaceRe = re.compile(r'^\s*$')
+char_mappings = {"(" : ")", "{" : "}", "[" : "]"}
 
 
 class HungryBackspaceCommand(sublime_plugin.TextCommand):
@@ -49,7 +50,12 @@ def hungry_backspace(view, edit):
 
 
 def default_backspace(view):
+    cursor = view.sel()[0].begin()
+    two_char_region = sublime.Region(cursor-1, cursor+1)
+    dbl = view.substr(two_char_region)
     view.run_command("left_delete")
+    if len(dbl) == 2 and char_mappings.get(dbl[0],"--") == dbl[1]:
+        view.run_command("right_delete")
 
 
 def reindent(view):
