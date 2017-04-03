@@ -3,7 +3,7 @@ import sublime_plugin
 import re
 
 spaceRe = re.compile(r'^\s*$')
-char_mappings = {"(" : ")", "{" : "}", "[" : "]"}
+char_mappings = {"(" : ")", "{" : "}", "[" : "]", "\"" : "\"", "'" : "'"}
 
 
 class HungryBackspaceCommand(sublime_plugin.TextCommand):
