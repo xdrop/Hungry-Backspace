@@ -1,0 +1,6 @@
+Version 1.1.1
+============================================================================================================================
+
+[Fix]
+
+- Using the backspace on pairs of "[]","()","{}" will now delete both with a single keystroke
