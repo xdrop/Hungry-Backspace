@@ -39,6 +39,19 @@ class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
         sublime.save_settings("Hungry Backspace.sublime-settings")
 
 
+class HungryBackspaceEventListener(sublime_plugin.EventListener):
+
+    def on_query_context(self, view, key, operator, operand, match_all):
+        """
+            Allow the standard command to work even when `plugin_host` is not running.
+        """
+
+        if key == "hungry_backspace_context":
+            return not view.is_read_only()
+
+        return None
+
+
 def hungry_backspace(view, edit):
     selections = view.sel()
     cursor = view.sel()[0]
