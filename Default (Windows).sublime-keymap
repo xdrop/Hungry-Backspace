@@ -1,10 +1,22 @@
 [
     // the hungry backspace
-    { "keys": ["backspace"], "command": "hungry_backspace", "context": [ { "key": "hungry_backspace_context" }, ] },
+    { "keys": ["backspace"], "command": "hungry_backspace", "context": [
+        { "key": "setting.is_widget", "operator": "equal", "operand": false },
+        { "key": "hungry_backspace_context" },
+      ]
+    },
 
     // the default backspace
-    { "keys": ["shift+backspace"], "command": "default_backspace", "context": [ { "key": "hungry_backspace_context" }, ] },
+    { "keys": ["shift+backspace"], "command": "default_backspace", "context": [
+        { "key": "setting.is_widget", "operator": "equal", "operand": false },
+        { "key": "hungry_backspace_context" },
+      ]
+    },
 
     // flipping the hungry and default backspace actions
-    //{ "keys": ["ctrl+."], "command": "flip_hungry_backspace_key_bindings", "context": [ { "key": "hungry_backspace_context" }, ] }
+    // { "keys": ["ctrl+."], "command": "flip_hungry_backspace_key_bindings", "context": [
+    //     { "key": "setting.is_widget", "operator": "equal", "operand": false },
+    //     { "key": "hungry_backspace_context" },
+    //   ]
+    // }
 ]
