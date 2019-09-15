@@ -11,7 +11,7 @@ class HungryBackspaceCommand(sublime_plugin.TextCommand):
     def run(self, edit):
         view = self.view
         # if this filetype is excluded restore normal backspace behaviour
-        if is_enabled() and is_active_file_type(view.file_name()) and not is_swapped():
+        if is_enabled(view) and is_active_file_type(view) and not is_swapped(view):
             hungry_backspace(view, edit)
         else:
             default_backspace(view)
@@ -21,7 +21,7 @@ class DefaultBackspaceCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         view = self.view
-        if is_enabled() and is_swapped() and is_active_file_type(view.file_name()):
+        if is_enabled(view) and is_swapped(view) and is_active_file_type(view):
             hungry_backspace(view, edit)
         else:
             default_backspace(view)
@@ -31,12 +31,13 @@ class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         view = self.view
-        prev = g_settings.get('flipped_key_bindings')
+        settings = sublime.load_settings("Preferences.sublime-settings")
+        prev = settings.get('hungry_backspace.flipped_key_bindings')
         if prev:
-            g_settings.set('flipped_key_bindings', False)
+            settings.set('hungry_backspace.flipped_key_bindings', False)
         else:
-            g_settings.set('flipped_key_bindings', True)
-        sublime.save_settings("Hungry Backspace.sublime-settings")
+            settings.set('hungry_backspace.flipped_key_bindings', True)
+        sublime.save_settings("Preferences.sublime-settings")
 
 
 class HungryBackspaceEventListener(sublime_plugin.EventListener):
@@ -80,7 +81,7 @@ def consume_backspace(view, edit, cursor):
     # calculated indent until first character
     current_indent = calc_indent(cur_line_contents)
     # check whether to disable at line beginning
-    if g_settings.get("disabled_on_line_begin"):
+    if view.settings().get("hungry_backspace.disabled_on_line_begin"):
         if disable_at_lend(view, edit,cur_line, cursor, current_indent):
             return
     # check if it contains just spaces
@@ -90,7 +91,7 @@ def consume_backspace(view, edit, cursor):
         # check if the upper line is empty
         upper_empty = spaceRe.match(upper_line_contents)
         # if force right to left is enabled
-        if is_force_reindent():
+        if is_force_reindent(view):
             upper_indent = calc_indent(upper_line_contents)
             # if the indent level of this line is higher than the line
             # above we will re-indent it instead of removing it
@@ -112,7 +113,7 @@ def consume_backspace(view, edit, cursor):
         move_cursor(view, upper_line.end() + offset)
     # if we are at the begining of the line
     elif (cur_line.begin() + current_indent) == cursor.end():
-        should_reindent = is_right_left_bck() and not is_force_line_move()
+        should_reindent = is_right_left_bck(view) and not is_force_line_move(view)
         # get the upper line
         (upper_line_contents, upper_line) = get_upper_line(view, cursor, True)
         upper_indent = calc_indent(upper_line_contents)
@@ -131,12 +132,12 @@ def consume_backspace(view, edit, cursor):
         if passthrough or new_cursor_pos.end() == cursor.end():
             # we check that the upper line is empty
             # then we can move this line up
-            if spaceRe.match(upper_line_contents) and is_consume_above():
+            if spaceRe.match(upper_line_contents) and is_consume_above(view):
                 view.erase(edit, upper_line)
                 move_cursor(view, cursor.begin() - len(upper_line_contents))
             # if the upper line is not empty and we have enabled the option
             # to move line contents up on backspace
-            elif is_bck_line_move() and current_indent >= upper_indent:
+            elif is_bck_line_move(view) and current_indent >= upper_indent:
                 # strip the line end from the above line
                 # and append the current line without the leading space
                 new_merged_line = upper_line_contents.rstrip(
@@ -171,7 +172,7 @@ def reinsert_indent(view, edit, upper, indent):
         # re-insert indentation characters
         offset = view.insert(
             edit, upper_line.begin(), indent.rstrip("\r\n"))
-    elif is_force_indent_at_upper():
+    elif is_force_indent_at_upper(view):
         # get ready to re-insert indentation
         # clear it first
         view.replace(edit, upper_line, '')
@@ -195,10 +196,11 @@ def move_cursor(view, pos):
     view.sel().add(sublime.Region(pos))
 
 
-def is_active_file_type(filename):
+def is_active_file_type(view):
+    filename = view.file_name()
     if filename is None:
         return True
-    excluded_filetypes = g_settings.get('excluded_filetypes')
+    excluded_filetypes = view.settings().get('hungry_backspace.excluded_filetypes')
     parts = filename.split('.')
     if len(parts) < 2:
         return True
@@ -206,36 +208,36 @@ def is_active_file_type(filename):
         return parts[-1] not in excluded_filetypes
 
 
-def is_force_indent_at_upper():
-    return g_settings.get('force_indent_at_upper_level')
+def is_force_indent_at_upper(view):
+    return view.settings().get('hungry_backspace.force_indent_at_upper_level')
 
 
-def is_swapped():
-    return g_settings.get('flipped_key_bindings')
+def is_swapped(view):
+    return view.settings().get('hungry_backspace.flipped_key_bindings')
 
 
-def is_enabled():
-    return g_settings.get('enabled')
+def is_enabled(view):
+    return view.settings().get('hungry_backspace.enabled')
 
 
-def is_right_left_bck():
-    return g_settings.get('right_to_left_backspacing') in ["enabled", "forced", True]
+def is_right_left_bck(view):
+    return view.settings().get('hungry_backspace.right_to_left_backspacing') in ["enabled", "forced", True]
 
 
-def is_force_reindent():
-    return g_settings.get('right_to_left_backspacing') == "forced"
+def is_force_reindent(view):
+    return view.settings().get('hungry_backspace.right_to_left_backspacing') == "forced"
 
 
-def is_consume_above():
-    return g_settings.get('consume_above_line')
+def is_consume_above(view):
+    return view.settings().get('hungry_backspace.consume_above_line')
 
 
-def is_bck_line_move():
-    return g_settings.get('backspace_line_content_move') in ["enabled", "forced", True]
+def is_bck_line_move(view):
+    return view.settings().get('hungry_backspace.backspace_line_content_move') in ["enabled", "forced", True]
 
 
-def is_force_line_move():
-    return g_settings.get('backspace_line_content_move') == "forced"
+def is_force_line_move(view):
+    return view.settings().get('hungry_backspace.backspace_line_content_move') == "forced"
 
 
 def get_cur_line(view, region, full):
@@ -262,7 +264,3 @@ def get_upper_line(view, region, full):
         new_region_line = view.line(new_region)
     return (view.substr(new_region_line), new_region_line)
 
-
-def plugin_loaded():
-    global g_settings
-    g_settings = sublime.load_settings("Hungry Backspace.sublime-settings")

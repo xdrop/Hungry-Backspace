@@ -1,24 +1,34 @@
 {
   // enable/disable plugin
-  "enabled": true,
+  "hungry_backspace.enabled": true,
+
   // filetypes with these extensions don't have hungry backspacing
-  "excluded_filetypes": [],
+  "hungry_backspace.excluded_filetypes": [],
+
   // controls whether the default/hungry backspace bindings should be flipped
-  "flipped_key_bindings": false,
+  "hungry_backspace.flipped_key_bindings": false,
+
   // when the upper line is empty but contains some indentation a backspace
   // causes the upper line to obtain this lines indentation
-  "force_indent_at_upper_level" : true,
+  "hungry_backspace.force_indent_at_upper_level" : true,
+
   // [Experimental] When you press backspace with your cursor at line start
   // if the indentation level of the current line is wrong it is reindented
   // Options: "enabled"/ "disabled" / "forced"
-  "right_to_left_backspacing" : "disabled",
+  "hungry_backspace.right_to_left_backspacing" : "disabled",
+
   // If you are on line start and the upper line is empty
   // the current line gets moved one up
-  "consume_above_line": true,
+  "hungry_backspace.consume_above_line": true,
+
   // [Experimental] If you are on line start and press backspace and the upper line is not empty
   // the current lines contents get moved up
   // Options: "enabled"/ "disabled" / "forced"
-  "backspace_line_content_move": "disabled",
+  "hungry_backspace.backspace_line_content_move": "disabled",
+
   // disable backspace on line begin
-  "disabled_on_line_begin": false
+  "hungry_backspace.disabled_on_line_begin": false,
+
+  // Controls auto pairing of quotes, brackets etc
+  "hungry_backspace.auto_match_enabled": false,
 }
