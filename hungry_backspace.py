@@ -31,11 +31,11 @@ class FlipHungryBackspaceKeyBindingsCommand(sublime_plugin.TextCommand):
 
     def run(self, edit):
         view = self.view
-        prev = s.get('flipped_key_bindings')
+        prev = g_settings.get('flipped_key_bindings')
         if prev:
-            s.set('flipped_key_bindings', False)
+            g_settings.set('flipped_key_bindings', False)
         else:
-            s.set('flipped_key_bindings', True)
+            g_settings.set('flipped_key_bindings', True)
         sublime.save_settings("Hungry Backspace.sublime-settings")
 
 
@@ -80,7 +80,7 @@ def consume_backspace(view, edit, cursor):
     # calculated indent until first character
     current_indent = calc_indent(cur_line_contents)
     # check whether to disable at line beginning
-    if s.get("disabled_on_line_begin"):
+    if g_settings.get("disabled_on_line_begin"):
         if disable_at_lend(view, edit,cur_line, cursor, current_indent):
             return
     # check if it contains just spaces
@@ -176,8 +176,8 @@ def reinsert_indent(view, edit, upper, indent):
         # clear it first
         view.replace(edit, upper_line, '')
         # re-insert indentation characters
-        sz = view.insert(edit, upper_line.begin(), indent.rstrip("\r\n"))
-        offset = sz - upper_len
+        string = view.insert(edit, upper_line.begin(), indent.rstrip("\r\n"))
+        offset = string - upper_len
     return offset
 
 
@@ -198,7 +198,7 @@ def move_cursor(view, pos):
 def is_active_file_type(filename):
     if filename is None:
         return True
-    excluded_filetypes = s.get('excluded_filetypes')
+    excluded_filetypes = g_settings.get('excluded_filetypes')
     parts = filename.split('.')
     if len(parts) < 2:
         return True
@@ -207,35 +207,35 @@ def is_active_file_type(filename):
 
 
 def is_force_indent_at_upper():
-    return s.get('force_indent_at_upper_level')
+    return g_settings.get('force_indent_at_upper_level')
 
 
 def is_swapped():
-    return s.get('flipped_key_bindings')
+    return g_settings.get('flipped_key_bindings')
 
 
 def is_enabled():
-    return s.get('enabled')
+    return g_settings.get('enabled')
 
 
 def is_right_left_bck():
-    return s.get('right_to_left_backspacing') in ["enabled", "forced", True]
+    return g_settings.get('right_to_left_backspacing') in ["enabled", "forced", True]
 
 
 def is_force_reindent():
-    return s.get('right_to_left_backspacing') == "forced"
+    return g_settings.get('right_to_left_backspacing') == "forced"
 
 
 def is_consume_above():
-    return s.get('consume_above_line')
+    return g_settings.get('consume_above_line')
 
 
 def is_bck_line_move():
-    return s.get('backspace_line_content_move') in ["enabled", "forced", True]
+    return g_settings.get('backspace_line_content_move') in ["enabled", "forced", True]
 
 
 def is_force_line_move():
-    return s.get('backspace_line_content_move') == "forced"
+    return g_settings.get('backspace_line_content_move') == "forced"
 
 
 def get_cur_line(view, region, full):
@@ -246,8 +246,8 @@ def get_cur_line(view, region, full):
     return (view.substr(line), line)
 
 
-def as_hex(s):
-    return ":".join("{:02x}".format(ord(c)) for c in s)
+def as_hex(string):
+    return ":".join("{:02x}".format(ord(char)) for char in string)
 
 
 def get_upper_line(view, region, full):
@@ -264,5 +264,5 @@ def get_upper_line(view, region, full):
 
 
 def plugin_loaded():
-    global s
-    s = sublime.load_settings("Hungry Backspace.sublime-settings")
+    global g_settings
+    g_settings = sublime.load_settings("Hungry Backspace.sublime-settings")
