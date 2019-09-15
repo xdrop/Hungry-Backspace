@@ -69,8 +69,9 @@ def default_backspace(view):
     cursor = view.sel()[0].begin()
     two_char_region = sublime.Region(cursor-1, cursor+1)
     dbl = view.substr(two_char_region)
+    settings = view.settings()
     view.run_command("left_delete")
-    if len(dbl) == 2 and char_mappings.get(dbl[0],"--") == dbl[1]:
+    if auto_match_enabled(settings) and len(dbl) == 2 and char_mappings.get(dbl[0],"--") == dbl[1]:
         view.run_command("right_delete")
 
 
@@ -244,6 +245,10 @@ def is_bck_line_move(settings):
 
 def is_force_line_move(settings):
     return settings.get('hungry_backspace.backspace_line_content_move') == "forced"
+
+
+def auto_match_enabled(settings):
+    return settings.get('hungry_backspace.auto_match_enabled')
 
 
 def get_cur_line(view, region, full):

@@ -29,6 +29,7 @@
   // disable backspace on line begin
   "hungry_backspace.disabled_on_line_begin": false,
 
-  // Controls auto pairing of quotes, brackets etc
+  // Enabled the auto pairing deletion of quotes, brackets etc.
+  // See also the Sublime Text default setting `auto_match_enabled`.
   "hungry_backspace.auto_match_enabled": false,
 }
