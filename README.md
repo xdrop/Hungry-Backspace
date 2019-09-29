@@ -5,7 +5,7 @@ Hungry Backspace for Sublime Text
 
 ### Overview
 
-This small plugin brings to Sublime Text the "hungry backspace" feature from IntelliJ. The hungry backspace retains the scope (indentation) when the backspace key is pressed on an empty line. 
+This small plugin brings to Sublime Text the "hungry backspace" feature from IntelliJ. The hungry backspace retains the scope (indentation) when the backspace key is pressed on an empty line.
 
 ### Live demo
 
@@ -45,27 +45,39 @@ This plugin is **NOT** meant to replace backspace entirely, it is meant to be us
   *  [Experimental] If you are on line start and press backspace and the upper line is not empty
      the current lines contents get moved up
      Options: "enabled"/ "disabled" / "forced"
-     
+
      "backspace_line_content_move": "enabled"
 
 
 
 
-### Installation
+
+## Installation
+
+### By Package Control
+
+1. Download & Install `Sublime Text 3` (https://www.sublimetext.com/3)
+1. Go to the menu `Tools -> Install Package Control`, then,
+   wait few seconds until the `Package Control` installation finishes
+1. Go to the menu `Preferences -> Package Control`
+1. Type `Package Control Add Channel` on the opened quick panel and press <kbd>Enter</kbd>
+1. Then, input the following address and press <kbd>Enter</kbd>
+   ```
+   https://raw.githubusercontent.com/evandrocoan/StudioChannel/master/channel.json
+   ```
+1. Now, go again to the menu `Preferences -> Package Control`
+1. This time type `Package Control Install Package` on the opened quick panel and press <kbd>Enter</kbd>
+1. Then, search for `HungryBackspace` and press <kbd>Enter</kbd>
+1. Try it by pressing backspace on some empty lines!
+1. You can change the key bindings by going to `Preferences` then `Package Settings` then `Hungry Backspace`, and select they keymap option
+
+See also:
+1. [ITE - Integrated Toolset Environment](https://github.com/evandrocoan/ITE)
+1. [Package control docs](https://packagecontrol.io/docs/usage) for details.
 
 
-1. Having installed [Package Control](https://packagecontrol.io/installation) access the `Command Pallete` (`Ctrl+Shift+P`), select `Install package` and then select `Hungry Backspace`.
 
-2. Try it by pressing backspace on some empty lines!
 
-3. You can change the key bindings by going to `Preferences` then `Package Settings` then `Hungry Backspace`, and select they keymap option
-
-*Alternatively* if you have not installed Package control:
-
-1. Go to **Preferences | Browse packages...**
-2. While inside the **Packages** directory, clone the theme repository using the command below: 
-
-    `git clone https://github.com/xdrop/Hungry-Backspace.git "Hungry Backspace"`
 
 ### Key bindings
 By default this plugin overrides your backspace with the "hungry" one however, as mentioned previously the plugin is meant to be used in conjunction with the default backspace which is now accessible via `SHIFT+BACKSPACE`. You can flip between space and shift-backspace at any time by pressing **CTRL+.(dot)**
